@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Contactos</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Disable browser navigation using back and forward arrows
+            history.pushState(null, document.title, location.href);
+            window.addEventListener('popstate', function (event) {
+                history.pushState(null, document.title, location.href);
+                getAllContacts();  // Ensure the contacts are reloaded
+            });
+
+            // Utility functions
+            function getAllContacts() {
+                fetch('http://localhost:8000/contactos')
+                    .then(response => response.json())
+                    .then(data => {
+                        mostrarDatosContactos(data);
+                    })
+                    .catch(error => console.error('Error al obtener contactos:', error));
+            }
+
+            function mostrarDatosContactos(contactos) {
+                const tbody_contactos = document.getElementById("tbody_contactos");
+                tbody_contactos.innerHTML = "";
+
+                contactos.forEach(contact => {
+                    appendContactRow(contact);
+                });
+            }
+
+            function appendContactRow(contact) {
+                const tbody_contactos = document.getElementById("tbody_contactos");
+
+                var tr = document.createElement("tr");
+                tr.setAttribute("data-contact-id", contact.email);
+
+                appendCell(tr, contact.email);
+                appendCell(tr, contact.nombre);
+                appendCell(tr, contact.telefono);
+
+                var opcionesCell = document.createElement("td");
+                opcionesCell.appendChild(createButton("Ver", () => verContacto(contact.email, contact.nombre, contact.telefono)));
+                opcionesCell.appendChild(createButton("Editar", () => window.location.href = `editar.html?email=${contact.email}`));
+                opcionesCell.appendChild(createButton("Borrar", () => borrarContacto(contact.email, contact.nombre, contact.telefono)));
+                tr.appendChild(opcionesCell);
+                tbody_contactos.appendChild(tr);
+            }
+
+            function createButton(label, onClick) {
+                var button = document.createElement("button");
+                button.innerHTML = label;
+                button.onclick = onClick;
+                return button;
+            }
+
+            function verContacto(email, nombre, telefono) {
+                // Redirect to ver.html with contact details
+                window.location.href = `ver.html?email=${email}&nombre=${nombre}&telefono=${telefono}`;
+            }
+
+            function borrarContacto(email, nombre, telefono) {
+                // Redirect to borrar.html with contact details
+                window.location.href = `borrar.html?email=${email}&nombre=${nombre}&telefono=${telefono}`;
+            }
+
+            function appendCell(row, content) {
+                var cell = document.createElement("td");
+                cell.innerHTML = content;
+                row.appendChild(cell);
+            }
+
+            // Get all contacts when the page loads
+            getAllContacts();
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Contactos</h1>
+    <button id="btn_insertar" onclick="window.location.href='insertar.html'">Insertar</button>
+    <button id="btn_buscar" onclick="window.location.href='buscar.html'">Buscar</button>
+
+    <table id="table_contactos">
+        <thead id="thead_contactos">
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Opciones</th>
+        </thead>
+        <tbody id="tbody_contactos"></tbody>
+    </table>
+</body>
+
+</html>

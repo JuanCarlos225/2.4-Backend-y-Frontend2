@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Buscar Contacto</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function buscarContacto() {
+                var email = document.getElementById("input_email").value;
+
+                // Fetch the contact data based on the email
+                fetch(`http://localhost:8000/contactos/${email}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Display the contact data
+                        if (data) {
+                            mostrarDatosContacto(data);
+                        } else {
+                            alert("No se encontró ningún contacto con ese email.");
+                        }
+                    })
+                    .catch(error => console.error('Error al buscar contacto:', error));
+            }
+
+            function mostrarDatosContacto(contacto) {
+                var resultadoDiv = document.getElementById("resultado_busqueda");
+                resultadoDiv.innerHTML = "";
+
+                // Create a table to display the contact details
+                var table = document.createElement("table");
+
+                // Append table header
+                var thead = document.createElement("thead");
+                var trHead = document.createElement("tr");
+                ["Email", "Nombre", "Telefono"].forEach(headerText => {
+                    var th = document.createElement("th");
+                    th.appendChild(document.createTextNode(headerText));
+                    trHead.appendChild(th);
+                });
+                thead.appendChild(trHead);
+                table.appendChild(thead);
+
+                // Append table body with contact details
+                var tbody = document.createElement("tbody");
+                var trBody = document.createElement("tr");
+
+                // Only include the specified fields in the table
+                ["email", "nombre", "telefono"].forEach(key => {
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode(contacto[key]));
+                    trBody.appendChild(td);
+                });
+
+                tbody.appendChild(trBody);
+                table.appendChild(tbody);
+
+                resultadoDiv.appendChild(table);
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Buscar Contacto por Email</h1>
+    <label for="input_email">Email:</label>
+    <input type="email" id="input_email" required>
+    <button onclick="buscarContacto()">Buscar</button>
+    <button type="button" id="btn_cancelar" onclick="window.location.href='index.html'">Cancelar</button>
+
+    <div id="resultado_busqueda"></div>
+    <!-- Agregamos una tabla para mostrar los resultados -->
+    <table id="tabla_resultados" style="display:none;">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se mostrarán los datos del contacto -->
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Editar Contacto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Editar Contacto</h1>
+
+    <table>
+        <tr>
+            <th>Email</th>
+            <td id="emailCell"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td><input type="text" id="nombreInput"></td>
+        </tr>
+        <tr>
+            <th>Telefono</th>
+            <td><input type="text" id="telefonoInput"></td>
+        </tr>
+    </table>
+
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+    <button onclick="volverAIndex()">Volver al Index</button>
+
+    <script src="editar.js"></script>
+</body>
+
+</html>

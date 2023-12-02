@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Ver Contacto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Ver Contacto</h1>
+
+    <table>
+        <tr>
+            <th>Email</th>
+            <td id="emailCell"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td id="nombreCell"></td>
+        </tr>
+        <tr>
+            <th>Telefono</th>
+            <td id="telefonoCell"></td>
+        </tr>
+    </table>
+
+    <button type="button" id="btn_cancelar" onclick="window.location.href='index.html'">Volver al Index</button>
+
+    <script src="ver.js"></script>
+</body>
+
+</html>

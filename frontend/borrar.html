@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Confirmar Borrado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Confirmar Borrado</h1>
+
+    <table>
+        <tr>
+            <th>Email</th>
+            <td id="emailCell"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td id="nombreCell"></td>
+        </tr>
+        <tr>
+            <th>Telefono</th>
+            <td id="telefonoCell"></td>
+        </tr>
+    </table>
+
+    <button id="btnBorrar">Borrar</button>
+    <button id="btnCancelar" onclick="cancelarBorrado()">Cancelar</button>
+
+    <script src="borrar.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get contact details from URL query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const nombre = urlParams.get('nombre');
+            const telefono = urlParams.get('telefono');
+
+            // Display contact details in the table
+            document.getElementById("emailCell").textContent = email;
+            document.getElementById("nombreCell").textContent = nombre;
+            document.getElementById("telefonoCell").textContent = telefono;
+
+            // Attach event listener to the "Borrar" button
+            document.getElementById("btnBorrar").addEventListener("click", function () {
+                // Call the borrarContacto function from borrar.js
+                borrarContacto(email);
+            });
+        });
+
+        function cancelarBorrado() {
+            // Redirect to the index page without performing any deletion
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>
